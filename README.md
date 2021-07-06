@@ -14,7 +14,7 @@ If you have any questions, please don't hesitate to [contact us](mailto:lvasquez
 
 ### 1. Datasets Analysis & 2. Better-distributed datasets
 
-You will need **Python 3.6+** and **Java** (tested on 15.0.1)
+You will need **Python 3.7+** and **Java** (tested on 15.0.1)
 
 ```bash
 git clone https://github.com/lmvasque/ts-explore.git
@@ -24,7 +24,7 @@ pip install -r requirements.txt
 
 ### 3. Model Evaluation
 
-We have adapted [EditNTS model](https://github.com/yuedongP/EditNTS) code to run in our setting. You can use this adaptation from the following fork [repo](https://github.com/lmvasque/EditNTS-eval) of the original repo. These modifications include:
+We have adapted [EditNTS model](https://github.com/yuedongP/EditNTS) code to run in our setting. You can use this adaptation from the following fork [repo](https://github.com/lmvasque/EditNTS-eval) from original repo.
 - Code migration to Python 3  
 - Scripts for data preprocessing
 - Other minor fixes
@@ -54,10 +54,12 @@ This is an example for **wikismall.json**, which contains subsets that start wit
 Edit-distance calculations occur in Java. Open a new terminal and run the following command:
 ```bash
 cd ts-explore/java
-./run.sh
+/bin/bash run.sh
 ```
 
-#### Run the analysis 
+#### Run the analysis
+
+In a new terminal, run from the downloaded git repo:
 ```bash
 python ts_eval.py --analysis --datasets examples/wikismall.json --output_dir output
 ```
