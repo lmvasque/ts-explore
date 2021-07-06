@@ -24,7 +24,7 @@ pip install -r requirements.txt
 
 ### 3. Model Evaluation
 
-We have adapted [EditNTS model](https://github.com/yuedongP/EditNTS) code to run in our setting. You can use this adaptation from the following fork [repo](https://github.com/lmvasque/EditNTS-eval) from original repo.
+We have adapted [EditNTS model](https://github.com/yuedongP/EditNTS) code to run in our setting. You can use this adaptation from the following fork [repo](https://github.com/lmvasque/EditNTS) from original repo.
 - Code migration to Python 3  
 - Scripts for data preprocessing
 - Other minor fixes
@@ -79,7 +79,7 @@ python ts_eval.py --create unaligned --datasets examples/wikismall.json --sample
 
 ### 3. Model Evaluation
 
-We adapted the original [EditNTS model](https://github.com/yuedongP/EditNTS) and documented our changes [here](https://github.com/lmvasque/EditNTS-eval). Then, we trained our model as follows:
+We adapted the original [EditNTS model](https://github.com/yuedongP/EditNTS) and documented our changes [here](https://github.com/lmvasque/EditNTS). Then, we trained our model as follows:
 ```bash
 python main.py --vocab_path vocab_data/ --device 0 --data_path datasets/<dataset_dir>/<dataset_train_dev> --store_dir <output_dir> --batch_size 64 --lr 0.001 --vocab_size 30000 --run_training
 ```
@@ -87,6 +87,8 @@ To run model evaluation:
 ```bash
 python main.py --vocab_path vocab_data/ --device 0 --data_path datasets/<dataset_dir>/<dataset_test> --store_dir output/ --load_model output/<model>/checkpoints/<checkpoints_dir> --batch_size 64 --lr 0.001 --vocab_size 30000 --run_eval
 ```
+
+> :memo: **Note:** Please note that for using this model you need to follow a preprocessing step. We have used the setting for no duplicate sentences. You can refer to the original documention for further details.   
 
 ## Reproducibility Details
 
