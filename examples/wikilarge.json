@@ -1,0 +1,8 @@
+{
+  "wikilarge": {
+    "test": "data/wikilarge/wiki.full.aner.ori.test",
+    "dev": "data/wikilarge/wiki.full.aner.ori.dev",
+    "train": "data/wikilarge/wiki.full.aner.ori.train",
+    "tag": ["src", "dst"]
+  }
+}

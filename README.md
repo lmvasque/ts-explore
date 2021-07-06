@@ -1,7 +1,7 @@
 # Investigating Text Simplification Evaluation
-Source code for the paper "Investigating Text Simplification Evaluation" by [@lmvasquezr](https://twitter.com/lmvasquezr), [@MattShardlow](https://twitter.com/MattShardlow), [Piotr Przybyła](https://home.ipipan.waw.pl/p.przybyla/) and [@SAnaniadou](https://twitter.com/SAnaniadou). Accepted in Findings at ACL-IJCNLP 2021.
+Source code for the paper "Investigating Text Simplification Evaluation" by [@lmvasquezr](https://twitter.com/lmvasquezr), [@MattShardlow](https://twitter.com/MattShardlow), [Piotr Przybyła](https://home.ipipan.waw.pl/p.przybyla/) and [@SAnaniadou](https://twitter.com/SAnaniadou). Accepted in Findings at [ACL-IJCNLP 2021](https://2021.aclweb.org/program/accept/).
 
-If you have any question, please don't hesitate to [contact us](mailto:lvasquezcr@gmail.com). Also, feel free to submit any issue/enhancement at [GitHub](https://github.com/lmvasque/ts-explore/issues), if needed. 
+If you have any question, please don't hesitate to [contact us](mailto:lvasquezcr@gmail.com?subject=[GitHub]%20Investigating%20TS%20Eval%20Question). Also, feel free to submit any issue/enhancement at [GitHub](https://github.com/lmvasque/ts-explore/issues), if needed. 
 ## Features
 
 
@@ -14,9 +14,11 @@ If you have any question, please don't hesitate to [contact us](mailto:lvasquezc
 
 ### 1. Datasets Analysis & 2. Better-distributed datasets
 
-We use Python 3 and Java (we are using java 15.0.1)
+We use Python 3.6 or above and Java (tested on java 15.0.1)
 
 ```bash
+git clone https://github.com/lmvasque/ts-explore.git
+cd ts-explore
 pip install -r requirements.txt
 ```
 
@@ -34,23 +36,19 @@ We have adapted [EditNTS model](https://github.com/yuedongP/EditNTS) code to run
 
 #### Configure your datasets
 
-Create a json file with the location of the dataset files (with prefixes for test, dev and train subsets) and its suffixes:
+Create a json file with the location of the dataset files:
 ```json
 {
-   "turkcorpus": {
-    "test": "data/turkcorpus/turkcorpus.test",
-    "dev": "data/turkcorpus/turkcorpus.tune",
-    "tag": ["orig.all", "simp.all"]
-  },
-   "asset": {
-    "test": "data/asset/asset.test",
-    "dev": "data/asset/asset.valid",
-    "tag": ["orig.all", "simp.all"]
+  "wikismall": {
+    "test": "<data_dir>/wikismall/PWKP_108016.tag.80.aner.ori.test",
+    "dev": "<data_dir>/wikismall/PWKP_108016.tag.80.aner.ori.valid",
+    "train": "<data_dir>/wikismall/PWKP_108016.tag.80.aner.ori.train",
+    "tag": ["src", "dst"]
   }
 }
 ```
 
-This is an example for **data.json**, which contains subsets called: **asset.test.orig.all** located in **data/turkcorpus/**
+This is an example for **wikismall.json**, which contains subsets that start with **PWKP_108016.tag.80.aner.ori** and end with **.src** and **.dst**, located in **<data_dir>/wikismall/**
 
 #### Run the Java Server
 Edit-distance calculations occur in Java. Open a new terminal and run the following command:
@@ -61,19 +59,19 @@ cd ts-explore/java
 
 #### Run the analysis 
 ```bash
-./ts_eval --analysis --datasets ../examples/datasets.json --output_dir "../output"
+./ts_eval --analysis --datasets ../examples/wikismall.json --output_dir ../output
 ```
 
 ### 2. Better-distributed datasets
 
 For creating random distributed datasets:
 ```bash
-./ts_eval --create random --sample 0.05 --output_dir "../output"
+./ts_eval --create random --datasets ../examples/wikismall.json --seed 324 --output_dir ../output
 ```
 
 For creating datasets reduced in poor-alignments (sentences that are aligned incorrectly):
 ```bash
-./ts_eval --create unaligned --sample 0.05 --output_dir "../output"
+./ts_eval --create unaligned --datasets ../examples/wikismall.json --sample 0.95 --seed 324 --output_dir ../output
 ```
 
 
@@ -83,15 +81,15 @@ We created the following adaptation of EditNTS model: https://github.com/lmvasqu
 ```bash
 python main.py --vocab_path vocab_data/ --device 0 --data_path datasets/<dataset_dir>/<dataset_train_dev> --store_dir <output_dir> --batch_size 64 --lr 0.001 --vocab_size 30000 --run_training
 ```
-And.. to run model evaluation:
+To run model evaluation:
 ```bash
 python main.py --vocab_path vocab_data/ --device 0 --data_path datasets/<dataset_dir>/<dataset_test> --store_dir output/ --load_model output/<model>/checkpoints/<checkpoints_dir> --batch_size 64 --lr 0.001 --vocab_size 30000 --run_eval
 ```
 
-## Reproducibility 
+## Reproducibility Details
 
 ### Data
-To replicate our results, please get the following resources:
+To replicate our results, please download or request the following resources:
 - **WikiLarge & WikiSmall**: from [(Zhang and Lapata, 2017)](https://xingxingzhang.github.io/dress/) splits.
 - **Turk Corpus**: from [(Xu, 2016)](https://github.com/cocoxu/simplification/tree/master/data/turkcorpus) splits.
 - **ASSET**: from [(Alva-Manchego, 2020)](https://github.com/facebookresearch/asset) splits. In this dataset, we performed minor transformations to be consistent with other datasets, in which there are spaces between punctuation marks. This is the list of replacements applied:
@@ -105,14 +103,14 @@ To replicate our results, please get the following resources:
 - **MSD**: from [(Cao, 2020)](https://srhthu.github.io/expertise-style-transfer/#disclaimer) splits. The original dataset comes in JSON format, we filtered "text" field from each sentence. We kept every *even* line as the complex sentence and its corresponding *odd* line as its simple sentence.
 
 ### Analysis
-We have created a sample configuration file to replicate the datasets analysis. Please refer to this file and update with the location of the data files. Then, run the datasets analysis:
+We have created a [sample configuration file](https://github.com/lmvasque/ts-explore/examples/ts_datasets.json) to replicate our TS datasets analysis. Please use this file and update with the location of the data files. You can run the datasets analysis as follows:
 ```bash
 ./ts_eval --analysis --datasets ../examples/datasets.json --output_dir "../output"
 ```
 
-You will the following output:
+You will see the following outputs:
 
-- **Edit-distance plots** under <your_output_dir>/imgs 
+- **Edit-distance plots** under *<output_dir>/imgs* 
 - **KL divergences** reported in the log
 
 ```bash
@@ -129,9 +127,10 @@ wikimanual 0.017596
  wikismall 0.057977
 
 ```
-**Note:** For ASSET and TurkCorpus, the KL-divergences were calculated with a different procedure since these datasets have multiple references.
-- Datasets files (complex and simple sentences in separate files) under <your_output_dir>/txt
-- Text files with edit-distance calculations under <your_output_dir>/txt
+
+> :memo: **Note:** For ASSET and TurkCorpus, the KL-divergences were calculated in a different way since these datasets have multiple references.
+- **Datasets files** (complex and simple sentences in separate files) under *<output_dir>/txt*
+- Text files with **edit-distance calculations** under *<output_dir>/txt*
 ```text
 # Edit distance calculations: Score, Complex, Simple (tab-separated)
 4.3478260869565215	She performed for President Reagan in 1988's Great Performances at the White House series , which aired on the Public Broadcasting Service .	She performed for Reagan in 1988's Great Performances at the White House series , which aired on the Public Broadcasting Service .
@@ -139,12 +138,42 @@ wikimanual 0.017596
 4.545454545454546	This was substantially complete when Messiaen died , and Yvonne Loriod undertook the final movement's orchestration with advice from George Benjamin .	This was mostly complete when Messiaen died , and Yvonne Loriod undertook the final movement's orchestration with advice from George Benjamin .
 ```
 
+### Better-distributed datasets (Wiki Random, 98% and 95%)
+
+Use the following command lines to reproduce our datasets.
+
+```python
+# Wikilarge Random
+./ts_eval --create random --seed 324 --datasets ../examples/datasets.wikilarge.json --output_dir "../output"
+
+# Wikilarge 98%
+./ts_eval --create unaligned --datasets ../examples/datasets.wikilarge.json --sample 0.98 --seed 324 --output_dir "../output"
+
+# Wikilarge 95%
+./ts_eval --create unaligned --datasets ../examples/datasets.wikilarge.json --sample 0.95 --seed 324 --output_dir "../output"
+
+```
+
+And *datasets.wikilarge.json* will look like this:
+```json
+{
+  "wikilarge": {
+    "test": "<data_dir>/wikilarge/wiki.full.aner.ori.test",
+    "dev": "<data_dir>/wikilarge/wiki.full.aner.ori.dev",
+    "train": "<data_dir>/wikilarge/wiki.full.aner.ori.train",
+    "tag": ["src", "dst"]
+  }
+}
+```
+The same steps apply for WikiSmall dataset, just update the .json file.
+> :memo: **Note:** The scripts above will recreate the datasets from scratch. We recommend you use this method since they fix minor limitations found in data after publication. If you still want to use the original datasets, you can download from [here](https://drive.google.com/file/d/1rT6U_bZ28NzCjzKaA-Ml4pKx39p33BVT/view?usp=sharing).
+
 ### Hardware & Runtimes
 For the datasets analysis and creation, we ran under the following setting:
 -  Processor Name:	2 GHz Quad-Core Intel Core i5
 -  Memory:	16 GB
 
-*Analysis duration*: for all datasets should take ~5 minutes.
+*Analysis duration*: for all datasets presented in this paper it should take ~5 minutes.
 
 For the model training, we used a different setting, using 1 GPU with the following specs:
 - Tesla V100-SXM2-16GB
@@ -154,18 +183,4 @@ For the model training, we used a different setting, using 1 GPU with the follow
 
 ## Citation
 
-If you use our results and scripts in your research, please cite our work: Investigating Text Simplification Evaluation :)
-
-```
-@inproceedings{vasquez-rodriguez-etal-2021,
-    title = "{Investigating Text Simplification Evaluation",
-    author = "",
-    booktitle = "",
-    month = ,
-    year = "",
-    address = "",
-    publisher = "",
-    url = "",
-    pages = ""
-}
-```
+If you use our results and scripts in your research, please cite our work: [Investigating Text Simplification Evaluation](https://2021.aclweb.org/program/accept/) :)

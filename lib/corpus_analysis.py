@@ -8,18 +8,22 @@ from lib import stats
 def analyze_corpus_using_datasets(dataset, feature, output_dir, save_results=False):
     labels = dataset.get_all_splits_labels()
     results = [[] for _ in labels]
-    full_results = [[] for _ in labels]
+    full_results = []
     data = dataset.get_all_splits_data()
     for i, split in enumerate(data):
+
+        count = 0
         for x, y in split:
             dist = stats.feature(x, y, feature)
             results[i].append(dist)
-            full_results[i].append((dist, x, y))
+            full_results.append([dist, x, y])
+            count += 1
 
         dataset.splits_feature[labels[i]] = results[i]
 
     if save_results:
         filename = "{}/{}.{}".format(output_dir, dataset.name, feature)
+        full_results = sorted(full_results, key=lambda z: z[0])
         save_txt_file(full_results, filename)
 
     return results
@@ -27,10 +31,11 @@ def analyze_corpus_using_datasets(dataset, feature, output_dir, save_results=Fal
 
 def save_txt_file(results, filename):
     with open("{}.tsv".format(filename), 'w') as f:
-        for subset in results:
-            subset = sorted(subset, key=lambda z: z[0])
-            for score, complex, simple in subset:
-                f.write("{}\t{}\t{}\n".format(score, complex, simple))
+        for item in results:
+            score = item[0]
+            comp = item[1]
+            simple = item[2]
+            f.write("{}\t{}\t{}\n".format(score, comp, simple))
 
 
 def compare_distribution(datasets, metric="kl"):
@@ -82,7 +87,6 @@ def merge_datasets_turk(output_dir, tag):
     merge_datasets(output_dir, tag, "{}.8turkers.tok.norm", "{}.8turkers.tok.turk.{}", "../data/turkcorpus",
                    "turkcorpus",
                    8, ["{}.8turkers.tok.simp".format(tag)])
-    # 8, [])
 
 
 def merge_datasets_asset(output_dir, tag, ):

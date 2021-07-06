@@ -30,8 +30,13 @@ def values_to_pdist(values):
     return result
 
 
+def simple_len(sent_a, sent_b):
+    return len(sent_a) - len(sent_b)
+
+
 FEATURES = {
     CHANGE_PERCENTAGE_LOWER: lev_per_word_percentage_lower_case,
+    LEN_DIFF: simple_len
 }
 
 

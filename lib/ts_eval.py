@@ -1,4 +1,5 @@
 import argparse
+import json
 import os
 from pathlib import Path
 
@@ -16,13 +17,14 @@ class TsEval(object):
         self.img_dir = "{}/img".format(self.output_dir)
         self.npy_dir = "{}/npy".format(self.output_dir)
         self.txt_dir = "{}/txt".format(self.output_dir)
+        self.dataset_dir = "{}/datasets".format(self.output_dir)
 
         self.setup_dirs()
         pass
 
     def setup_dirs(self):
 
-        paths = [self.img_dir, self.npy_dir, self.txt_dir]
+        paths = [self.img_dir, self.npy_dir, self.txt_dir, self.dataset_dir]
 
         for p in paths:
             if not Path.exists(Path(p)):
@@ -48,6 +50,7 @@ class TsEval(object):
 
     def analyse(self, save_results=True):
         features = [stats.CHANGE_PERCENTAGE_LOWER]
+        # features = [stats.LEN_DIFF]
         for f in features:
             for k, v in self.datasets_results.items():
                 self.analysis_results = corpus_analysis.analyze_corpus_using_datasets(v, f, self.txt_dir, save_results)
@@ -58,69 +61,75 @@ class TsEval(object):
         test_dev, test_train = corpus_analysis.compare_distribution(self.datasets_results)
         plot.scat(test_dev, test_train, "kl", self.img_dir)
 
-    def get_new_dist_dataset(self, dist_type, sample):
+    def get_new_dist_dataset(self, dist_type, sample, seed):
         for _, v in self.datasets_results.items():
             if "random" or "unaligned" in dist_type:
-                transform_corpus.distribute(dist_type, v, stats.CHANGE_PERCENTAGE_LOWER, sample, self.txt_dir)
+                transform_corpus.distribute(dist_type, v, stats.CHANGE_PERCENTAGE_LOWER, sample, seed, self.txt_dir,
+                                            self.dataset_dir)
             else:
                 raise Exception(
                     "ERROR: Unsupported algorithm for distributing datasets. Options available: random or unaligned")
 
 
-def get_user_params():
-    parser = argparse.ArgumentParser(description='TS datasets analysis')
+def validate_params(args):
+    if not args.output_dir:
+        raise Exception("ERROR: Output directory is not defined. Please provide a valid directory "
+                        "using: --output_dir [path]")
 
+    if not args.datasets:
+        raise Exception("ERROR: No datasets file defined, please a valid file using --datasets flag.")
+
+    if not args.analysis and not args.create:
+        raise Exception("ERROR: No mode was defined, please select one of the following flags: [--analysis, --create]")
+
+
+def init():
+    parser = argparse.ArgumentParser(description='TS datasets analysis')
     parser.add_argument("-a", "--analysis", action="store_true", help='Datasets analysis by edit-distance')
     parser.add_argument("-c", "--create", help='Create better distributed datasets')
     parser.add_argument("-o", "--output_dir", help="Output directory")
     parser.add_argument("-d", "--datasets", help="Datasets JSON file")
-    parser.add_argument("-s", "--sample", help="Poor alignments percentage to remove. For example: 0.03, 0.05")
+    parser.add_argument("-p", "--sample", help="Poor alignments percentage to remove. For example: 0.03, 0.05")
+    parser.add_argument("-s", "--seed", help="Seed for random generation of datasets. Default: 324")
 
     args = parser.parse_args()
+    validate_params(args)
 
-    if args.output_dir:
-        output_dir = args.output_dir
-    else:
-        raise Exception("ERROR: Output directory is not defined. "
-                        "Please provide a valid directory using: --output_dir [path]")
-
-    if args.datasets:
-        datasets = args.datasets
-    else:
-        raise Exception("ERROR: No datasets file defined, please a valid file using --datasets flag.")
+    seed = 324
+    sample = 1
+    output_dir = args.output_dir
+    datasets = args.datasets
 
     if args.sample:
-        sample = args.sample
-    else:
-        sample = 1
+        sample = float(args.sample)
+
+    if args.seed:
+        seed = int(args.seed)
 
     if args.analysis:
         print("Running datasets analysis..")
         analyze(datasets, output_dir)
     elif args.create:
         print("Creating better distributed datasets..")
-        create(datasets, sample, args.create, output_dir)
-    else:
-        raise Exception("ERROR: No mode was defined, please select one of the following flags: [--analysis, --create]")
+        create(datasets, sample, args.create, seed, output_dir)
 
 
 def analyze(datasets, output_dir):
     ts_eval = TsEval(output_dir)
     ts_eval.load_datasets(datasets)
     ts_eval.analyse(save_results=True)
-    ts_eval.get_dist_analysis()
+    # ts_eval.get_dist_analysis()
 
 
-def create(datasets, sample, flag, output_dir):
+def create(datasets, sample, flag, seed, output_dir):
+    ts_eval = TsEval(output_dir)
+    ts_eval.load_datasets(datasets)
+
     if "random" in flag:
-        ts_eval = TsEval(output_dir)
-        ts_eval.load_datasets(datasets)
-        ts_eval.get_new_dist_dataset("random")
+        ts_eval.get_new_dist_dataset(flag, sample, seed)
     elif "unaligned" in flag:
-        ts_eval = TsEval(output_dir)
-        ts_eval.load_datasets(datasets)
         ts_eval.analyse(save_results=True)
-        ts_eval.get_new_dist_dataset("unaligned", sample)
+        ts_eval.get_new_dist_dataset(flag, sample, seed)
     else:
         raise Exception("ERROR: Invalid values for --create flag. Valid values are: 'random' or 'unaligned'")
 
@@ -128,7 +137,7 @@ def create(datasets, sample, flag, output_dir):
 def main():
     import time
     start = time.time()
-    get_user_params()
+    init()
     end = time.time()
     print("Time elapsed: {} min".format((end - start) / 60))
 

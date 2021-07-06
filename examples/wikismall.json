@@ -1,0 +1,8 @@
+{
+  "wikismall": {
+    "test": "data/wikismall/PWKP_108016.tag.80.aner.ori.test",
+    "dev": "data/wikismall/PWKP_108016.tag.80.aner.ori.valid",
+    "train": "data/wikismall/PWKP_108016.tag.80.aner.ori.train",
+    "tag": ["src", "dst"]
+  }
+}

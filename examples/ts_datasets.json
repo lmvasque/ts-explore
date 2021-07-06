@@ -1,0 +1,34 @@
+{
+  "wikismall": {
+    "test": "data/wikismall/PWKP_108016.tag.80.aner.ori.test",
+    "dev": "data/wikismall/PWKP_108016.tag.80.aner.ori.valid",
+    "train": "data/wikismall/PWKP_108016.tag.80.aner.ori.train",
+    "tag": ["src", "dst"]
+  },
+  "wikilarge": {
+    "test": "data/wikilarge/wiki.full.aner.ori.test",
+    "dev": "data/wikilarge/wiki.full.aner.ori.valid",
+    "train": "data/wikilarge/wiki.full.aner.ori.train",
+    "tag": ["src", "dst"]
+  },
+  "wikimanual": {
+    "test": "data/wikimanual/test.tsv",
+    "dev": "data/wikimanual/dev.tsv",
+    "train": "data/wikimanual/train.tsv",
+    "tag": ["src", "dst"]
+  },
+  "asset": {
+    "test": "data/asset/asset.test",
+    "dev": "data/asset/asset.valid",
+    "tag": ["orig", "simp.0"]
+  },
+  "turkcorpus": {
+    "test": "data/turkcorpus/test.8turkers.tok",
+    "dev": "data/turkcorpus/tune.8turkers.tok",
+    "tag": ["norm", "turk.0"]
+  },
+  "msd": {
+    "test": "data/msd/test_v2.txt",
+    "tag": ["complex", "simple"]
+  }
+}

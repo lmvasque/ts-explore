@@ -16,7 +16,6 @@ def hist(x, title, labels, feature, output_dir):
 
     new_labels = []
     for label in labels:
-
         if "Tune" in label:
             new_labels.append("Dev")
         else:
