@@ -1,7 +1,7 @@
 # Investigating Text Simplification Evaluation
 Source code for the paper "Investigating Text Simplification Evaluation" by [@lmvasquezr](https://twitter.com/lmvasquezr), [@MattShardlow](https://twitter.com/MattShardlow), [Piotr Przybyła](https://home.ipipan.waw.pl/p.przybyla/) and [@SAnaniadou](https://twitter.com/SAnaniadou). Accepted in Findings at [ACL-IJCNLP 2021](https://2021.aclweb.org/program/accept/).
 
-If you have any question, please don't hesitate to [contact us](mailto:lvasquezcr@gmail.com?subject=[GitHub]%20Investigating%20TS%20Eval%20Question). Also, feel free to submit any issue/enhancement at [GitHub](https://github.com/lmvasque/ts-explore/issues), if needed. 
+If you have any questions, please don't hesitate to [contact us](mailto:lvasquezcr@gmail.com?subject=[GitHub]%20Investigating%20TS%20Eval%20Question). Feel free to submit any issue/enhancement in [GitHub](https://github.com/lmvasque/ts-explore/issues) as well. 
 ## Features
 
 
@@ -14,7 +14,7 @@ If you have any question, please don't hesitate to [contact us](mailto:lvasquezc
 
 ### 1. Datasets Analysis & 2. Better-distributed datasets
 
-We use Python 3.6 or above and Java (tested on java 15.0.1)
+You will need **Python 3.6+** and **Java** (tested on 15.0.1)
 
 ```bash
 git clone https://github.com/lmvasque/ts-explore.git
@@ -59,25 +59,25 @@ cd ts-explore/java
 
 #### Run the analysis 
 ```bash
-./ts_eval --analysis --datasets ../examples/wikismall.json --output_dir ../output
+python ts_eval.py --analysis --datasets examples/wikismall.json --output_dir output
 ```
 
 ### 2. Better-distributed datasets
 
 For creating random distributed datasets:
 ```bash
-./ts_eval --create random --datasets ../examples/wikismall.json --seed 324 --output_dir ../output
+python ts_eval.py --create random --datasets examples/wikismall.json --seed 324 --output_dir output
 ```
 
 For creating datasets reduced in poor-alignments (sentences that are aligned incorrectly):
 ```bash
-./ts_eval --create unaligned --datasets ../examples/wikismall.json --sample 0.95 --seed 324 --output_dir ../output
+python ts_eval.py --create unaligned --datasets examples/wikismall.json --sample 0.95 --seed 324 --output_dir output
 ```
 
 
 ### 3. Model Evaluation
 
-We created the following adaptation of EditNTS model: https://github.com/lmvasque/EditNTS-eval. We trained our model using the following command:
+We adapted the original [EditNTS model](https://github.com/yuedongP/EditNTS) and documented our changes [here](https://github.com/lmvasque/EditNTS-eval). Then, we trained our model as follows:
 ```bash
 python main.py --vocab_path vocab_data/ --device 0 --data_path datasets/<dataset_dir>/<dataset_train_dev> --store_dir <output_dir> --batch_size 64 --lr 0.001 --vocab_size 30000 --run_training
 ```
@@ -96,7 +96,7 @@ To replicate our results, please download or request the following resources:
   ```python
   regex = [(",", " ,"), (".", " . "), ("(", " ( "), (")", " ) ")]
   ```
-- **WikiManual**: from [(Jiang, 2020)](https://github.com/chaojiang06/wiki-auto) splits. We limited our analysis to sentences labeled as "aligned", we filtered them as follows:
+- **WikiManual**: from [(Jiang, 2020)](https://github.com/chaojiang06/wiki-auto) splits. We limited our analysis to sentences labeled as "aligned", we filtered [them](https://github.com/chaojiang06/wiki-auto/tree/master/wiki-manual) as follows:
   ```bash
   grep -E  "^aligned" <file> 
   ```
@@ -105,13 +105,13 @@ To replicate our results, please download or request the following resources:
 ### Analysis
 We have created a [sample configuration file](https://github.com/lmvasque/ts-explore/examples/ts_datasets.json) to replicate our TS datasets analysis. Please use this file and update with the location of the data files. You can run the datasets analysis as follows:
 ```bash
-./ts_eval --analysis --datasets ../examples/datasets.json --output_dir "../output"
+python ts_eval.py --analysis --datasets examples/ts_datasets.json --output_dir output
 ```
 
 You will see the following outputs:
 
 - **Edit-distance plots** under *<output_dir>/imgs* 
-- **KL divergences** reported in the log
+- **KL divergences** between each dataset subsets, this are reported in console
 
 ```bash
 Distribution divergences between Test/Dev subsets
@@ -128,7 +128,7 @@ wikimanual 0.017596
 
 ```
 
-> :memo: **Note:** For ASSET and TurkCorpus, the KL-divergences were calculated in a different way since these datasets have multiple references.
+> :memo: **Note:** For ASSET and TurkCorpus, the KL-divergences were calculated in a different way since these datasets have multiple references. In our experiments, we merged all the references into a single file for each subset (test, dev and train) and then calculated the divergences. 
 - **Datasets files** (complex and simple sentences in separate files) under *<output_dir>/txt*
 - Text files with **edit-distance calculations** under *<output_dir>/txt*
 ```text
@@ -144,13 +144,13 @@ Use the following command lines to reproduce our datasets.
 
 ```python
 # Wikilarge Random
-./ts_eval --create random --seed 324 --datasets ../examples/datasets.wikilarge.json --output_dir "../output"
+python ts_eval.py --create random --seed 324 --datasets examples/datasets.wikilarge.json --output_dir output
 
 # Wikilarge 98%
-./ts_eval --create unaligned --datasets ../examples/datasets.wikilarge.json --sample 0.98 --seed 324 --output_dir "../output"
+python ts_eval.py --create unaligned --datasets examples/datasets.wikilarge.json --sample 0.98 --seed 324 --output_dir output
 
 # Wikilarge 95%
-./ts_eval --create unaligned --datasets ../examples/datasets.wikilarge.json --sample 0.95 --seed 324 --output_dir "../output"
+python ts_eval.py --create unaligned --datasets examples/datasets.wikilarge.json --sample 0.95 --seed 324 --output_dir output
 
 ```
 

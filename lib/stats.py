@@ -1,6 +1,6 @@
 from py4j.java_gateway import JavaGateway
 
-from config import *
+from lib.config import *
 
 
 def lev_per_word_percentage_lower_case(sent_a, sent_b):

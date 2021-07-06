@@ -20,7 +20,7 @@
   "asset": {
     "test": "data/asset/asset.test",
     "dev": "data/asset/asset.valid",
-    "tag": ["orig", "simp.0"]
+    "tag": ["orig.new", "simp.0.new"]
   },
   "turkcorpus": {
     "test": "data/turkcorpus/test.8turkers.tok",
@@ -29,6 +29,6 @@
   },
   "msd": {
     "test": "data/msd/test_v2.txt",
-    "tag": ["complex", "simple"]
+    "tag": ["complex.out", "simple.out"]
   }
 }

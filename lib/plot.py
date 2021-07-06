@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.style as style
 import numpy as np
 import pandas
-from config import COLORS
+from lib.config import COLORS
 
 style.use('tableau-colorblind10')
 
