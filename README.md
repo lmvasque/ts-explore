@@ -1,5 +1,5 @@
 # Investigating Text Simplification Evaluation
-Source code for the paper "Investigating Text Simplification Evaluation" by [@lmvasquezr](https://twitter.com/lmvasquezr), [@MattShardlow](https://twitter.com/MattShardlow), [Piotr Przybyła](https://home.ipipan.waw.pl/p.przybyla/) and [@SAnaniadou](https://twitter.com/SAnaniadou). Accepted in Findings at [ACL-IJCNLP 2021](https://2021.aclweb.org/program/accept/).
+Source code for the paper [Investigating Text Simplification Evaluation](https://aclanthology.org/2021.findings-acl.77/) by [@lmvasquezr](https://twitter.com/lmvasquezr), [@MattShardlow](https://twitter.com/MattShardlow), [Piotr Przybyła](https://home.ipipan.waw.pl/p.przybyla/) and [@SAnaniadou](https://twitter.com/SAnaniadou). Accepted in Findings at [ACL-IJCNLP 2021](https://2021.aclweb.org/program/accept/).
 
 If you have any questions, please don't hesitate to [contact us](mailto:lvasquezcr@gmail.com?subject=[GitHub]%20Investigating%20TS%20Eval%20Question). Feel free to submit any issue/enhancement in [GitHub](https://github.com/lmvasque/ts-explore/issues) as well. 
 ## Features
@@ -187,4 +187,21 @@ For the model training, we used a different setting, using 1 GPU with the follow
 
 ## Citation
 
-If you use our results and scripts in your research, please cite our work: [Investigating Text Simplification Evaluation](https://2021.aclweb.org/program/accept/) :)
+If you use our results and scripts in your research, please cite our work: [Investigating Text Simplification Evaluation](https://aclanthology.org/2021.findings-acl.77/) :)
+
+```
+@inproceedings{vasquez-rodriguez-etal-2021-investigating,
+    title = "Investigating Text Simplification Evaluation",
+    author = "V{\'a}squez-Rodr{\'\i}guez, Laura  and
+      Shardlow, Matthew  and
+      Przyby{\l}a, Piotr  and
+      Ananiadou, Sophia",
+    booktitle = "Findings of the Association for Computational Linguistics: ACL-IJCNLP 2021",
+    month = aug,
+    year = "2021",
+    address = "Online",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2021.findings-acl.77",
+    pages = "876--882",
+}
+```
