@@ -1,4 +1,4 @@
-# Investigating Text Simplification Evaluation
+# Text Simplification Evaluation
 Source code for the papers:
 - [Investigating Text Simplification Evaluation](https://aclanthology.org/2021.findings-acl.77/) accepted in Findings at [ACL-IJCNLP 2021](https://2021.aclweb.org/program/accept/) 
 - [The Role of Text Simplification Operations in Evaluation](http://ceur-ws.org/Vol-2944/paper4.pdf) accepted at [CTTS-2021 workshop](https://www.taln.upf.edu/pages/cttsr2021-ws/) (**scripts to be released soon :)**)
