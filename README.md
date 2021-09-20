@@ -1,5 +1,9 @@
 # Investigating Text Simplification Evaluation
-Source code for the paper [Investigating Text Simplification Evaluation](https://aclanthology.org/2021.findings-acl.77/) by [@lmvasquezr](https://twitter.com/lmvasquezr), [@MattShardlow](https://twitter.com/MattShardlow), [Piotr Przybyła](https://home.ipipan.waw.pl/p.przybyla/) and [@SAnaniadou](https://twitter.com/SAnaniadou). Accepted in Findings at [ACL-IJCNLP 2021](https://2021.aclweb.org/program/accept/).
+Source code for the papers:
+- [Investigating Text Simplification Evaluation](https://aclanthology.org/2021.findings-acl.77/) accepted in Findings at [ACL-IJCNLP 2021](https://2021.aclweb.org/program/accept/) 
+- [The Role of Text Simplification Operations in Evaluation](http://ceur-ws.org/Vol-2944/paper4.pdf) accepted at [CTTS-2021 workshop](https://www.taln.upf.edu/pages/cttsr2021-ws/) (**scripts to be released soon :)**)
+
+By [@lmvasquezr](https://twitter.com/lmvasquezr), [@MattShardlow](https://twitter.com/MattShardlow), [Piotr Przybyła](https://home.ipipan.waw.pl/p.przybyla/) and [@SAnaniadou](https://twitter.com/SAnaniadou). 
 
 If you have any questions, please don't hesitate to [contact us](mailto:lvasquezcr@gmail.com?subject=[GitHub]%20Investigating%20TS%20Eval%20Question). Feel free to submit any issue/enhancement in [GitHub](https://github.com/lmvasque/ts-explore/issues) as well. 
 ## Features
@@ -187,7 +191,10 @@ For the model training, we used a different setting, using 1 GPU with the follow
 
 ## Citation
 
-If you use our results and scripts in your research, please cite our work: [Investigating Text Simplification Evaluation](https://aclanthology.org/2021.findings-acl.77/) :)
+If you use our results and scripts in your research, please cite our work: 
+
+[Investigating Text Simplification Evaluation](https://aclanthology.org/2021.findings-acl.77/): this includes the evaluation of KL-divergences of Wikipedia-based TS datasets and our random (single seed) and poor-alignment (98% and 95%) analysis. These scenarios are evaluated together. 
+
 
 ```
 @inproceedings{vasquez-rodriguez-etal-2021-investigating,
@@ -203,5 +210,24 @@ If you use our results and scripts in your research, please cite our work: [Inve
     publisher = "Association for Computational Linguistics",
     url = "https://aclanthology.org/2021.findings-acl.77",
     pages = "876--882",
+}
+```
+
+[The Role of Text Simplification Operations in Evaluation](http://ceur-ws.org/Vol-2944/paper4.pdf): our analysis is extended by adding multiple seeds (5) for random, more poor-alignment scenarios (98%, 95%, 90%, 85%, 80%) and Monte Carlo algorithm analysis. These scenarios are evaluated independently. 
+
+```
+@inproceedings{vasquez-rodriguez-etal-2021-the-role,
+    title = "The Role of Text Simplification Operations in Evaluation",
+    author = "V{\'a}squez-Rodr{\'\i}guez, Laura  and
+      Shardlow, Matthew  and
+      Przyby{\l}a, Piotr  and
+      Ananiadou, Sophia",
+    booktitle = "First Workshop on Current Trends in Text Simplification (CTTS 2021)",
+    month = sep,
+    year = "2021",
+    address = "Online",
+    publisher = "CEUR Workshop Proceedings (CEUR-WS.org)",
+    url = "http://ceur-ws.org/Vol-2944/paper4.pdf",
+    pages = "57--69",
 }
 ```
