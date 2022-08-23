@@ -72,3 +72,4 @@ class Dataset(object):
 
     def has_train(self):
         return "train" in self.splits
+

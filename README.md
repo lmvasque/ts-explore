@@ -1,13 +1,12 @@
 # Text Simplification Evaluation
 Source code for the papers:
-- [Investigating Text Simplification Evaluation](https://aclanthology.org/2021.findings-acl.77/) accepted in Findings at [ACL-IJCNLP 2021](https://2021.aclweb.org/program/accept/) 
-- [The Role of Text Simplification Operations in Evaluation](http://ceur-ws.org/Vol-2944/paper4.pdf) accepted at [CTTS-2021 workshop](https://www.taln.upf.edu/pages/cttsr2021-ws/) (**scripts to be released soon :)**)
+- [<span style="background-color: #90EE90"> Tag v1.0</span>](https://github.com/lmvasque/ts-explore/tree/v1.0) → [Investigating Text Simplification Evaluation](https://aclanthology.org/2021.findings-acl.77/) accepted in Findings at [ACL-IJCNLP 2021](https://2021.aclweb.org/program/accept/)  
+- [<span style="background-color: #90EE90"> Tag v2.0</span>](https://github.com/lmvasque/ts-explore/tree/v2.0) → [The Role of Text Simplification Operations in Evaluation](http://ceur-ws.org/Vol-2944/paper4.pdf) accepted at [CTTS-2021 workshop](https://www.taln.upf.edu/pages/cttsr2021-ws/)
 
 By [@lmvasquezr](https://twitter.com/lmvasquezr), [@MattShardlow](https://twitter.com/MattShardlow), [Piotr Przybyła](https://home.ipipan.waw.pl/p.przybyla/) and [@SAnaniadou](https://twitter.com/SAnaniadou). 
 
 If you have any questions, please don't hesitate to [contact us](mailto:lvasquezcr@gmail.com?subject=[GitHub]%20Investigating%20TS%20Eval%20Question). Feel free to submit any issue/enhancement in [GitHub](https://github.com/lmvasque/ts-explore/issues) as well. 
 ## Features
-
 
 1. Analysis of Text Simplification corpora based on simplification operations, using the edit distance measure.
 1. Creation of better distributed datasets (random and with our heuristic for reduction of incorrect alignments)
@@ -151,6 +150,10 @@ wikimanual 0.017596
 Use the following command lines to reproduce our datasets.
 
 ```python
+# Supported values (evaluated in our paper)
+# sample: 0.98, 0.95, 0.90, 0.85 and 0.80
+# seed: 155, 324, 393, 728, 989 
+
 # Wikilarge Random
 python ts_eval.py --create random --seed 324 --datasets examples/datasets.wikilarge.json --output_dir output
 
@@ -161,6 +164,8 @@ python ts_eval.py --create unaligned --datasets examples/datasets.wikilarge.json
 python ts_eval.py --create unaligned --datasets examples/datasets.wikilarge.json --sample 0.95 --seed 324 --output_dir output
 
 ```
+
+
 
 And *datasets.wikilarge.json* will look like this:
 ```json

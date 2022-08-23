@@ -34,8 +34,27 @@ def simple_len(sent_a, sent_b):
     return len(sent_a) - len(sent_b)
 
 
+def get_edit_operations_lower_case(sent_a, sent_b):
+    sent_a = sent_a.lower()
+    sent_b = sent_b.lower()
+    return get_edit_operations(sent_a, sent_b)
+
+
+def get_edit_operations(sent_a, sent_b):
+    sent_a = sent_a.lower()
+    sent_b = sent_b.lower()
+    gateway = JavaGateway()
+    edit_distance = gateway.entry_point.getEditDistance()
+    result = edit_distance.countOperations(sent_a, sent_b, "default").split("-")[:-1]
+    new_result = []
+    for r in result:
+        new_result.append(operations[r])
+    return new_result
+
+
 FEATURES = {
     CHANGE_PERCENTAGE_LOWER: lev_per_word_percentage_lower_case,
+    EDIT_OPERATIONS_TYPES_LOWER: get_edit_operations_lower_case,
     LEN_DIFF: simple_len
 }
 
