@@ -1,10 +1,32 @@
-//package pl.waw.ipipan.homados.plainification;
-
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class WagnerFischerAlgorithm {
+
+    private Map<Integer, String> operations = get_operations();
+
+    public String calculate_all(String source, String destination) {
+        String[] source_end = source.trim().toLowerCase().split(" ");
+        String[] destination_end = destination.trim().toLowerCase().split(" ");
+
+        return computeDistance_all(source_end, destination_end);
+    }
+
+
+    public String computeDistance_all(Object[] source, Object[] destination) {
+        List<Change> changes = computeDistancePath(source, destination);
+        String result = "";
+
+        for (Change change : changes)
+            if (change.type != Change.KEEP) {
+                result += operations.get(change.type) + "," + change.replaced + "," + change.replacement + "\t";
+            }
+
+        return result.substring(0, result.length() - 1);
+    }
 
     public double calculate(String source, String destination, String type) {
         String[] source_end = source.trim().split(" ");
@@ -25,8 +47,7 @@ public class WagnerFischerAlgorithm {
         int result = 0;
         for (Change change : changes)
             if (change.type != Change.KEEP) {
-                System.out.println("\nType: " + change.type);
-                System.out.println("Source: " + change.replaced + " \nDestination: " + change.replacement);
+                System.out.println(operations.get(change.type) + "," + change.replaced + "," + change.replacement);
                 result++;
             }
 
@@ -211,6 +232,18 @@ public class WagnerFischerAlgorithm {
 
         return change;
     }
+
+    private Map<Integer, String> get_operations(){
+        Map<Integer, String> operations = new HashMap<Integer, String>();
+        operations.put(0, "KEEP");
+        operations.put(1, "ADD_BEFORE");
+        operations.put(2, "ADD_AFTER");
+        operations.put(3, "DELETE");
+        operations.put(4, "REPLACE");
+        operations.put(5, "MOVE");
+        return operations;
+    }
+
 
 
 }

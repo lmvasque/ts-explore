@@ -93,6 +93,33 @@ python main.py --vocab_path vocab_data/ --device 0 --data_path datasets/<dataset
 
 > :memo: **Note:** Please note that for using this model you need to follow a preprocessing step. We have used the setting for no duplicate sentences. You can refer to the original documention for further details.   
 
+### 4. Calculate simplification operations
+
+If you would like to use our edit-distance algorithm to get the simplification operations, you can run as follows:
+
+1. In a separate terminal run the following command to start the Java Server:
+```bash
+git clone https://github.com/lmvasque/ts-explore.git
+cd ts-explore/java
+./run.sh
+```
+
+2. Run the script to obtain the list of operations needed to transform the source sentence into the target sentence.
+```bash
+python count_operations.py --source "The house was painted last week by John ." --target "John painted the house last week ."
+```
+
+3. Finally, you will get a list of operations, including the source and target token involved in the operation:
+```bash
+REPLACE,the,john
+REPLACE,house,painted
+REPLACE,was,the
+REPLACE,painted,house
+DELETE,by,null
+DELETE,john,null
+```
+
+
 ## Reproducibility Details
 
 ### Data
